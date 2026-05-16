@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #08001A;
+  --accent-purple: #A855F7;
+  --accent-pink: #EC4899;
+  --accent-glow: #D400FF;
+  --text: #FFFFFF;
+  --text-muted: rgba(255, 255, 255, 0.55);
+  --border: rgba(168, 85, 247, 0.25);
+  --card-bg: rgba(255, 255, 255, 0.04);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Confetti — burst radial desde el centro */
+@keyframes confetti-burst {
+  0%   { transform: translate(0, 0) rotate(0deg) scale(1);   opacity: 1; }
+  60%  { opacity: 1; }
+  100% { transform: translate(var(--cx), var(--cy)) rotate(720deg) scale(0.5); opacity: 0; }
+}
+
+/* Frame — flotación 3D continua */
+@keyframes frame-float {
+  0%   { transform: perspective(1200px) rotateX(4deg)  rotateY(-4deg) scale(1); }
+  25%  { transform: perspective(1200px) rotateX(-2deg) rotateY(5deg)  scale(1.01); }
+  50%  { transform: perspective(1200px) rotateX(3deg)  rotateY(3deg)  scale(1); }
+  75%  { transform: perspective(1200px) rotateX(-3deg) rotateY(-5deg) scale(1.01); }
+  100% { transform: perspective(1200px) rotateX(4deg)  rotateY(-4deg) scale(1); }
+}
+
+/* Social icons — spin 3D sobre eje Y */
+@keyframes spin-y {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
+}
+
+/* Glow pulsante del frame */
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.7; }
+  50%       { opacity: 1; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent-purple);
+  border-radius: 3px;
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, #A855F7, #EC4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glow effect */
+.glow {
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.4), 0 0 40px rgba(168, 85, 247, 0.1);
+}
+
+.glow-pink {
+  box-shadow: 0 0 20px rgba(212, 0, 255, 0.4), 0 0 60px rgba(212, 0, 255, 0.1);
+}
+
+/* Section heading underline */
+.section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #A855F7, #EC4899);
+  margin: 12px auto 0;
+  border-radius: 2px;
+}
+
+/* Card base */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  border-color: rgba(168, 85, 247, 0.5);
+  background: rgba(168, 85, 247, 0.06);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(168, 85, 247, 0.2);
+}
+
+/* Button primary */
+.btn-primary {
+  background: linear-gradient(135deg, #A855F7, #EC4899);
+  color: white;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(168, 85, 247, 0.5);
+}
+
+/* Button outline */
+.btn-outline {
+  background: transparent;
+  color: white;
+  padding: 11px 28px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(168, 85, 247, 0.6);
+  cursor: pointer;
+  letter-spacing: 0.3px;
+}
+
+.btn-outline:hover {
+  background: rgba(168, 85, 247, 0.1);
+  border-color: #A855F7;
+  transform: translateY(-2px);
+}
+
+/* Orb decorativo */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  opacity: 0.35;
+}
