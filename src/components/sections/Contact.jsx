@@ -1,15 +1,31 @@
 import { useState } from 'react'
 import { contact } from '../../data/content'
 
-export default function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' })
-  const [sent, setSent] = useState(false)
+const FORMSPREE_ID = 'xlgzqpjp'
 
-  const handleSubmit = (e) => {
+export default function Contact() {
+  const [form, setForm]       = useState({ name: '', email: '', message: '' })
+  const [status, setStatus]   = useState('idle') // idle | sending | sent | error
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Por ahora abre el cliente de mail
-    window.location.href = `mailto:${contact.email}?subject=Contacto desde portfolio&body=${encodeURIComponent(form.message)}`
-    setSent(true)
+    setStatus('sending')
+
+    try {
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ name: form.name, email: form.email, message: form.message }),
+      })
+      if (res.ok) {
+        setStatus('sent')
+        setForm({ name: '', email: '', message: '' })
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
   }
 
   const inputStyle = {
@@ -37,51 +53,76 @@ export default function Contact() {
           ✉️ {contact.email}
         </p>
 
-        <form onSubmit={handleSubmit} className="card p-8 flex flex-col gap-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {status === 'sent' ? (
+          <div className="card p-12 flex flex-col items-center gap-4 text-center">
+            <span className="text-5xl">🎉</span>
+            <p className="font-heading font-bold text-xl">¡Mensaje enviado!</p>
+            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              Te respondo a la brevedad. ¡Gracias por escribir!
+            </p>
+            <button onClick={() => setStatus('idle')} className="btn-outline mt-2 text-sm">
+              Enviar otro mensaje
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="card p-8 flex flex-col gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Nombre</label>
+                <input
+                  type="text"
+                  placeholder="Tu nombre"
+                  required
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  style={inputStyle}
+                  onFocus={(e) => e.target.style.borderColor = 'rgba(168,85,247,0.6)'}
+                  onBlur={(e) => e.target.style.borderColor = 'rgba(168,85,247,0.25)'}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Email</label>
+                <input
+                  type="email"
+                  placeholder="tu@email.com"
+                  required
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  style={inputStyle}
+                  onFocus={(e) => e.target.style.borderColor = 'rgba(168,85,247,0.6)'}
+                  onBlur={(e) => e.target.style.borderColor = 'rgba(168,85,247,0.25)'}
+                />
+              </div>
+            </div>
+
             <div className="flex flex-col gap-2">
-              <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Nombre</label>
-              <input
-                type="text"
-                placeholder="Tu nombre"
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                style={inputStyle}
+              <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Mensaje</label>
+              <textarea
+                rows={5}
+                placeholder={contact.placeholder}
+                required
+                value={form.message}
+                onChange={(e) => setForm({ ...form, message: e.target.value })}
+                style={{ ...inputStyle, resize: 'none' }}
                 onFocus={(e) => e.target.style.borderColor = 'rgba(168,85,247,0.6)'}
                 onBlur={(e) => e.target.style.borderColor = 'rgba(168,85,247,0.25)'}
               />
             </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Email</label>
-              <input
-                type="email"
-                placeholder="tu@email.com"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                style={inputStyle}
-                onFocus={(e) => e.target.style.borderColor = 'rgba(168,85,247,0.6)'}
-                onBlur={(e) => e.target.style.borderColor = 'rgba(168,85,247,0.25)'}
-              />
-            </div>
-          </div>
 
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Mensaje</label>
-            <textarea
-              rows={5}
-              placeholder={contact.placeholder}
-              value={form.message}
-              onChange={(e) => setForm({ ...form, message: e.target.value })}
-              style={{ ...inputStyle, resize: 'none' }}
-              onFocus={(e) => e.target.style.borderColor = 'rgba(168,85,247,0.6)'}
-              onBlur={(e) => e.target.style.borderColor = 'rgba(168,85,247,0.25)'}
-            />
-          </div>
+            {status === 'error' && (
+              <p className="text-xs text-red-400">Hubo un error al enviar. Intentá de nuevo o escribime directamente a {contact.email}</p>
+            )}
 
-          <button type="submit" className="btn-primary self-end px-10">
-            {sent ? '¡Enviado! ✓' : 'Enviar mensaje'}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={status === 'sending'}
+              className="btn-primary self-end px-10"
+              style={{ opacity: status === 'sending' ? 0.6 : 1 }}
+            >
+              {status === 'sending' ? 'Enviando...' : 'Enviar mensaje'}
+            </button>
+          </form>
+        )}
       </div>
 
       {/* Footer */}

@@ -343,16 +343,30 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <button onClick={() => scrollTo('about')}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 hover:opacity-100 transition-opacity">
-        <span className="text-xs tracking-widest uppercase"
-          style={{ color: 'rgba(255,255,255,0.5)', fontFamily: 'Inter, sans-serif' }}>scroll</span>
-        <div className="w-6 h-9 rounded-full border flex items-start justify-center pt-2"
-          style={{ borderColor: 'rgba(168,85,247,0.4)' }}>
-          <div className="w-1 h-2 rounded-full animate-bounce"
-            style={{ background: 'linear-gradient(#A855F7, #EC4899)' }} />
-        </div>
+      {/* Scroll indicator — dos flechas */}
+      <button
+        onClick={() => scrollTo('about')}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center hover:opacity-100 transition-opacity"
+        style={{ opacity: 0.6 }}
+      >
+        <svg width="28" height="18" viewBox="0 0 28 18" fill="none" className="animate-bounce" style={{ animationDelay: '0s' }}>
+          <path d="M4 4L14 14L24 4" stroke="url(#arrowGrad1)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <defs>
+            <linearGradient id="arrowGrad1" x1="4" y1="4" x2="24" y2="14" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#A855F7"/>
+              <stop offset="1" stopColor="#EC4899"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <svg width="28" height="18" viewBox="0 0 28 18" fill="none" className="animate-bounce -mt-2" style={{ opacity: 0.4, animationDelay: '0.15s' }}>
+          <path d="M4 4L14 14L24 4" stroke="url(#arrowGrad2)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <defs>
+            <linearGradient id="arrowGrad2" x1="4" y1="4" x2="24" y2="14" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#A855F7"/>
+              <stop offset="1" stopColor="#EC4899"/>
+            </linearGradient>
+          </defs>
+        </svg>
       </button>
     </section>
   )

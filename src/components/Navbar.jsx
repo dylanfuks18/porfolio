@@ -65,14 +65,6 @@ export default function Navbar() {
               {item.label}
             </button>
           ))}
-          <a
-            href="/CV-Dylan-Fuks.pdf"
-            download="CV-Dylan-Fuks.pdf"
-            className="btn-primary ml-3 text-sm"
-            style={{ textDecoration: 'none' }}
-          >
-            Descargar CV
-          </a>
         </nav>
 
         {/* Mobile hamburger */}
@@ -102,14 +94,6 @@ export default function Navbar() {
               {item.label}
             </button>
           ))}
-          <a
-            href="/CV-Dylan-Fuks.pdf"
-            download="CV-Dylan-Fuks.pdf"
-            className="btn-primary mt-2 text-sm text-center"
-            style={{ textDecoration: 'none' }}
-          >
-            Descargar CV
-          </a>
         </div>
       )}
     </header>

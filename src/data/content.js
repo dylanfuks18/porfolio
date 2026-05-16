@@ -443,6 +443,6 @@ export const testimonials = [
 
 export const contact = {
   heading: '¿Te interesa hablar sobre un proyecto o colaborar conmigo?',
-  email: 'dylanfuks18@gmail.com',
+  email: 'Dylanfuks@gmail.com',
   placeholder: 'Contame de tu idea o pregúntame lo que quieras...',
 }
