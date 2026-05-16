@@ -117,7 +117,7 @@ export default function ProjectDetail() {
             <div className="flex flex-wrap gap-8 mt-6 pt-8 border-t" style={{ borderColor: `${project.color}20` }}>
               {[
                 project.role     && { label: 'Mi rol',    value: project.role },
-                project.team     && { label: 'Equipo',    value: `${project.team} integrantes` },
+                project.team     && { label: 'Equipo',    value: project.team },
                 project.duration && { label: 'Duración',  value: project.duration },
               ].filter(Boolean).map((m) => (
                 <div key={m.label}>
@@ -355,18 +355,26 @@ export default function ProjectDetail() {
         <div>
           <SectionTitle color={project.color}>Diseño Final</SectionTitle>
 
+          {/* Cover image si existe y hay video */}
+          {project.research?.images?.cover && project.research?.images?.demo && (
+            <div className="mb-3">
+              <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: project.color }}>
+                Portada diseñada
+              </p>
+            </div>
+          )}
+
           {/* Video demo */}
           {project.research?.images?.demo && (
             <div className="flex justify-center mb-10">
-              <div className="rounded-2xl overflow-hidden"
-                style={{ border: `1px solid ${project.color}25`, maxWidth: 320, width: '100%' }}>
+              <div className="rounded-2xl overflow-hidden w-full"
+                style={{ border: `1px solid ${project.color}25`, maxWidth: 900 }}>
                 <video
                   src={project.research.images.demo}
-                  autoPlay
-                  loop
-                  muted
+                  controls
                   playsInline
                   className="w-full h-auto"
+                  style={{ display: 'block' }}
                 />
               </div>
             </div>

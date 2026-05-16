@@ -111,7 +111,7 @@ export default function About() {
                           src={slide.src}
                           alt={`Foto ${i + 1}`}
                           className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
-                          style={{ opacity: i === current ? 1 : 0 }}
+                          style={{ opacity: i === current ? 1 : 0, objectPosition: slide.objectPosition || 'center center' }}
                         />
                       ))}
 
